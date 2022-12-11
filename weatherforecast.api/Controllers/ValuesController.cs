@@ -13,12 +13,21 @@ namespace weatherforecast.api.Controllers
             _configuration = configuration;
         }
 
-        [HttpGet]
+        [HttpGet("AppSettings")]
         public async Task<IActionResult> Get()
         {
-            var value = _configuration["values:value-1"];
+            var x = _configuration.AsEnumerable();
             await Task.CompletedTask;
-            return Ok(value);
+            return Ok(x);
+        }
+
+        [HttpGet("Environment")]
+        public async Task<IActionResult> GetEnvironment()
+        {
+            var value = _configuration["values:value-1"];
+            var environment = Environment.GetEnvironmentVariables();
+            await Task.CompletedTask;
+            return Ok(environment);
         }
     }
 }
