@@ -1,0 +1,32 @@
+name: Build and Publish Docker Image
+
+on:
+  pull_request:
+    branches:
+      - main  # Change this to the branch you want to trigger the workflow
+      
+  # Allows you to run the workflow manually from the git actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Login to Docker Hub
+      run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+
+    - name: Build and tag Docker image
+      run: |
+        docker build -t aoidev2022/weatherforecast:v${{ github.run_number }} .
+
+    - name: Push Docker image to Docker Hub
+      run: |
+        docker push aoidev2022/weatherforecast:v${{ github.run_number }}
+
+    - name: Logout from Docker Hub
+      run: docker logout
+      
