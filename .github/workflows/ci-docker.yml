@@ -25,7 +25,8 @@ jobs:
       
     - name: Github Tag Bump
       uses: anothrNick/github-tag-action@1.67.0
-      ##env:
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         ##INITIAL_VERSION: 1.0.0
         ##DEFAULT_BUMP: minor
     outputs:
