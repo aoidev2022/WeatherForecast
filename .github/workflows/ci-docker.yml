@@ -13,8 +13,23 @@ on:
   workflow_dispatch:
 
 jobs:
+
+  generate-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Github Tag Bump
+      uses: anothrNick/github-tag-action@1.67.0
+      env:
+        INITIAL_VERSION: 1.0.0
+        DEFAULT_BUMP: minor
+    outputs:
+      new_version: ${{ steps.tab_bump.ouputs.new_tag }}
+
   build:
     runs-on: ubuntu-latest
+    needs: generate-version
 
     steps:
     - name: Checkout code
@@ -25,11 +40,11 @@ jobs:
 
     - name: Build and tag Docker image
       run: |
-        docker build -t aoidev2022/weatherforecast:v${{ github.run_number }} .
+        docker build -t aoidev2022/weatherforecast:v${{ needs.generate-version.outputs.new_version }} .
 
     - name: Push Docker image to Docker Hub
       run: |
-        docker push aoidev2022/weatherforecast:v${{ github.run_number }}
+        docker push aoidev2022/weatherforecast:v${{ needs.generate-version.outputs.new_version }}
 
     - name: Logout from Docker Hub
       run: docker logout
