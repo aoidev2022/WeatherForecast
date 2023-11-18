@@ -44,11 +44,11 @@ jobs:
 
     - name: Build and tag Docker image
       run: |
-        docker build -t aoidev2022/weatherforecast:v${{ needs.generate-version.outputs.new_version }} .
+        docker build -t aoidev2022/weatherforecast:${{ needs.generate-version.outputs.new_version }} .
 
     - name: Push Docker image to Docker Hub
       run: |
-        docker push aoidev2022/weatherforecast:v${{ needs.generate-version.outputs.new_version }}
+        docker push aoidev2022/weatherforecast:${{ needs.generate-version.outputs.new_version }}
 
     - name: Logout from Docker Hub
       run: docker logout
