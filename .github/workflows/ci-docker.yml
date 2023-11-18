@@ -33,7 +33,7 @@ jobs:
         WITH_V: true
         
     outputs:
-      new_version: epa2 ##${{ steps.tab_bump.ouputs.new_tag }}
+      new_version: pepe${{ steps.tab_bump.ouputs.new_tag }}
 
   build:
     runs-on: ubuntu-latest
