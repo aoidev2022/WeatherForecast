@@ -52,9 +52,11 @@ namespace WeatherForecast
         {
             if (env.IsDevelopment())
             {
+                var tag = Environment.GetEnvironmentVariable("TAG");
+
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WeatherForecast v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", $"WeatherForecast v1 [TAG {tag}]"));
             }
 
             app.UseHttpsRedirection();

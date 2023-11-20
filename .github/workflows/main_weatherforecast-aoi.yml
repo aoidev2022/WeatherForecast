@@ -52,7 +52,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         build-args: |
-            "SimpleProperty=${{ secrets.DOCKERHUB_USERNAME }}"
+            "TAG=${{ needs.generate-version.outputs.new_version }}"
         push: true
         tags: index.docker.io/${{ secrets.DOCKERHUB_USERNAME }}/weatherforecast:${{ needs.generate-version.outputs.new_version }}
         file: ./Dockerfile
