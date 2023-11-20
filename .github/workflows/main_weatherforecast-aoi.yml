@@ -53,6 +53,7 @@ jobs:
       with:
         build-args: |
             "TAG=${{ needs.generate-version.outputs.new_version }}"
+            "ASPNETCORE_ENVIRONMENT=${{ vars.ASPNETCORE_ENVIRONMENT }}"
         push: true
         tags: index.docker.io/${{ secrets.DOCKERHUB_USERNAME }}/weatherforecast:${{ needs.generate-version.outputs.new_version }}
         file: ./Dockerfile
@@ -63,7 +64,7 @@ jobs:
       - build 
       - generate-version
     environment:
-      name: 'production'
+      name: production
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -71,7 +72,7 @@ jobs:
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'weatherforecast-aoi'
-        slot-name: 'production'
+        app-name: weatherforecast-aoi
+        slot-name: production
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_d55d7115427741ce96a71e8cf419bcf5 }}
-        images: 'index.docker.io/${{ secrets.DOCKERHUB_USERNAME }}/weatherforecast:${{ needs.generate-version.outputs.new_version }}'
+        images: index.docker.io/${{ secrets.DOCKERHUB_USERNAME }}/weatherforecast:${{ needs.generate-version.outputs.new_version }}
