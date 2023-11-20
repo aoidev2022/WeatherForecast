@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_902872fbd1414d90b34aaf509e765b68 }}/aoidev2022/weatherforecast:${{ github.sha }}
+        tags: index.docker.io/aoidev2022/weatherforecast:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
