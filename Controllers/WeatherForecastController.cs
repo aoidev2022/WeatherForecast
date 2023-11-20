@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+
+using Serilog;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Serilog;
 
 namespace WeatherForecast.Controllers
 {
@@ -10,6 +13,13 @@ namespace WeatherForecast.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        private readonly IConfiguration _configuration;
+
+        public WeatherForecastController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -28,6 +38,18 @@ namespace WeatherForecast.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet("GetEnvironmentVariables")]
+        public IActionResult GetEnvironmentVariables()
+        {
+            return new JsonResult(Environment.GetEnvironmentVariables());
+        }
+
+        [HttpGet("GetAppSettings")]
+        public IActionResult GetAppSettings()
+        {
+            return new JsonResult(_configuration.AsEnumerable());
         }
     }
 }
