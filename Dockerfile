@@ -3,8 +3,9 @@ WORKDIR /app
 EXPOSE 80
 
 ENV ASPNETCORE_URLS=http://+:80
-ENV ASPNETCORE_ENVIRONMENT=Development
-ENV SimpleProperty='SimpleProperty_from_dockerfile'
+ARG ASPNETCORE_ENVIRONMENT
+ENV ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+#ENV SimpleProperty='SimpleProperty_from_dockerfile'
 ENV ConnectionStrings__Db='ConnectionStrings__Db_from_dockerfile'
 ENV Inventory__NestedProperty='Inventory__NestedProperty_from_dockerfile'
 ARG TAG

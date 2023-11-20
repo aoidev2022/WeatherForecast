@@ -46,15 +46,13 @@ namespace WeatherForecast
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (true || env.IsDevelopment())
             {
-                var tag = Environment.GetEnvironmentVariable("TAG");
-
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", $"WeatherForecast v1 - TAG {tag}");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", $"WeatherForecast v1 - TAG {Environment.GetEnvironmentVariable("TAG")}");
                 });
             }
 
