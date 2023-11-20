@@ -48,4 +48,4 @@ jobs:
         app-name: 'weatherforecast-aoi-2'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_24f87911234746fab2686395aec2ac8a }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_9155abbe65ef444d80ffab07aa8c53ec }}/aoidev2022/weatherforecast:${{ github.sha }}'
+        images: aoidev2022/weatherforecast:${{ github.sha }}
