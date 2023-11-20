@@ -6,7 +6,7 @@ name: Build and deploy container app to Azure Web App - weatherforecast-aoi
 on:
   push:
     branches:
-      - main
+      - main # Change this to the branch you want to trigger the workflow
   
   workflow_dispatch: # Allows you to run the workflow manually from the git actions tab
 
@@ -51,6 +51,8 @@ jobs:
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
+        build-args: |
+            "SimpleProperty=${{ secrets.DOCKERHUB_USERNAME }}"
         push: true
         tags: index.docker.io/${{ secrets.DOCKERHUB_USERNAME }}/weatherforecast:${{ needs.generate-version.outputs.new_version }}
         file: ./Dockerfile
