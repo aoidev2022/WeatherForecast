@@ -4,10 +4,11 @@ EXPOSE 80
 
 ENV ASPNETCORE_URLS=http://+:80
 ENV ASPNETCORE_ENVIRONMENT=Development
-ARG SimpleProperty
-ENV SimpleProperty=${SimpleProperty}
+ENV SimpleProperty='SimpleProperty_from_dockerfile'
 ENV ConnectionStrings__Db='ConnectionStrings__Db_from_dockerfile'
 ENV Inventory__NestedProperty='Inventory__NestedProperty_from_dockerfile'
+ARG TAG
+ENV TAG=${TAG}
 
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 ARG configuration=Release

@@ -1,17 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+
 using Serilog;
+
+using System;
 
 namespace WeatherForecast
 {
@@ -39,7 +35,7 @@ namespace WeatherForecast
 
             var dbgView = (Configuration as IConfigurationRoot).GetDebugView();
             Log.ForContext("ConfigurationDebug", dbgView).Information("Configuration Dump");
-            
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -52,9 +48,14 @@ namespace WeatherForecast
         {
             if (env.IsDevelopment())
             {
+                var tag = Environment.GetEnvironmentVariable("TAG");
+
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WeatherForecast v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", $"WeatherForecast v1 - TAG {tag}");
+                });
             }
 
             app.UseHttpsRedirection();
