@@ -54,6 +54,7 @@ jobs:
         build-args: |
             "TAG=${{ needs.generate-version.outputs.new_version }}"
             "ASPNETCORE_ENVIRONMENT=${{ vars.ASPNETCORE_ENVIRONMENT }}"
+            "SimpleProperty=${{ secrets.AzureAppService_PublishProfile_d55d7115427741ce96a71e8cf419bcf5 }}"
         push: true
         tags: index.docker.io/${{ secrets.DOCKERHUB_USERNAME }}/weatherforecast:${{ needs.generate-version.outputs.new_version }}
         file: ./Dockerfile
