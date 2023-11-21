@@ -5,8 +5,9 @@ EXPOSE 80
 ENV ASPNETCORE_URLS=http://+:80
 ARG ASPNETCORE_ENVIRONMENT
 ENV ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-#ENV SimpleProperty='SimpleProperty_from_dockerfile'
-ENV ConnectionStrings__Db='ConnectionStrings__Db_from_dockerfile'
+ARG SimpleProperty='my default value'
+ENV SimpleProperty=${SimpleProperty}
+##ENV ConnectionStrings__Db='ConnectionStrings__Db_from_dockerfile'
 ENV Inventory__NestedProperty='Inventory__NestedProperty_from_dockerfile'
 ARG TAG
 ENV TAG=${TAG}
