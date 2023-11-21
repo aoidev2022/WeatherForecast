@@ -54,6 +54,7 @@ jobs:
         build-args: |
             "TAG=${{ needs.generate-version.outputs.new_version }}"
             "ASPNETCORE_ENVIRONMENT=${{ vars.ASPNETCORE_ENVIRONMENT }}"
+            "SimpleProperty=${{ secrets.DOCKERHUB_USERNAME }}"
         push: true
         tags: index.docker.io/${{ secrets.DOCKERHUB_USERNAME }}/weatherforecast:${{ needs.generate-version.outputs.new_version }}
         file: ./Dockerfile
