@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,6 +9,8 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 
 using System;
+
+using WeatherForecast.DB;
 
 namespace WeatherForecast
 {
@@ -36,6 +39,11 @@ namespace WeatherForecast
             var dbgView = (Configuration as IConfigurationRoot).GetDebugView();
             Log.ForContext("ConfigurationDebug", dbgView).Information("Configuration Dump");
 
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DB"));
+            });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -54,6 +62,12 @@ namespace WeatherForecast
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", $"WeatherForecast v1 - TAG {Environment.GetEnvironmentVariable("TAG")}");
                 });
+            }
+
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                dbContext.Database.Migrate();
             }
 
             app.UseHttpsRedirection();
