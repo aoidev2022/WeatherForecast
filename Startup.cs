@@ -41,7 +41,7 @@ namespace WeatherForecast
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DB"));
+                // options.UseSqlServer(Configuration.GetConnectionString("DB"));
             });
 
             services.AddControllers();
@@ -64,11 +64,11 @@ namespace WeatherForecast
                 });
             }
 
-            using (var serviceScope = app.ApplicationServices.CreateScope())
-            {
-                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                dbContext.Database.Migrate();
-            }
+            //using (var serviceScope = app.ApplicationServices.CreateScope())
+            //{
+            //    var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            //    dbContext.Database.Migrate();
+            //}
 
             app.UseHttpsRedirection();
 
