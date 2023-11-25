@@ -41,7 +41,10 @@ namespace WeatherForecast
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                // options.UseSqlServer(Configuration.GetConnectionString("DB"));
+                if (!string.IsNullOrWhiteSpace(Configuration.GetConnectionString("Db")))
+                    options.UseSqlServer(Configuration.GetConnectionString("DB"));
+                else
+                    options.UseInMemoryDatabase("weatherforecast");
             });
 
             services.AddControllers();
@@ -64,11 +67,16 @@ namespace WeatherForecast
                 });
             }
 
-            //using (var serviceScope = app.ApplicationServices.CreateScope())
-            //{
-            //    var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            //    dbContext.Database.Migrate();
-            //}
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+                if (dbContext.Database.IsRelational())
+                    dbContext.Database.Migrate();
+
+                if (dbContext.Database.IsInMemory())
+                    Seeder.SeedInMemoryData(dbContext);
+            }
 
             app.UseHttpsRedirection();
 
